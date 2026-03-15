@@ -10,49 +10,61 @@ Many of them also require publishing a Docker image somewhere to install. For si
 
 ## [Cloudron](https://cloudron.io)
 
-First clone the project locally:
+<details>
+<summary>Setup</summary>
+
+0. [Install Cloudron](https://www.cloudron.io/get.html) via one-click images on one of various hosting platforms.
+
+1. Clone the project locally:
 
 ```
 git clone https://github.com/0dataapp/oneclick-proof
+```
+
+2. From the project directory, run the `install` command via the [Cloudron CLI](https://docs.cloudron.io/packaging/cli/):
+
+```
 cd oneclick-proof
-```
-
-Then from the project directory, run the `install` command via the [Cloudron CLI](https://docs.cloudron.io/packaging/cli/):
-
-```
 cloudron install --image 0data/oneclick-proof:cloudron --location oneclick-proof
 ```
+  
+</details>
 
-Updates are also done from the project directory:
+<details>
+<summary>Updates</summary>
+
+1. From the project directory, run the `update` command via the [Cloudron CLI](https://docs.cloudron.io/packaging/cli/):
 
 ```
 cloudron update --image 0data/oneclick-proof:cloudron --app oneclick-proof
 ```
 
+</details>
+
 See the [packaging tutorial](https://docs.cloudron.io/packaging/tutorial/) or [Cloudron official packages](https://git.cloudron.io/packages) for reference. You can also [use Cloudron itself to build and as a registry](https://rosano.ca/log/01hs9tx1ytkp3kb0v03pdpm08a).
 
 ## [Caprover](https://caprover.com)
 
-### with docker-compose:
+<details>
+<summary>Setup</summary>
 
-1. navigate to "Apps" → "Create A New App" → "One-Click Apps/Databases"
-, then search for `>> TEMPLATE <<` or scroll to bottom.
-2. select the ">> TEMPLATE <<" app and paste the configuration from `caprover/compose.yml`.
-3. name your app as `oneclick-proof` or something else, and then deploy.
+0. [Install Caprover](https://caprover.com/docs/get-started.html) via one-click DigitalOcean droplet.
 
-### without docker-compose:
+### with docker-compose
+1. Navigate to `Apps` → `Create A New App` → `One-Click Apps/Databases`
+, then search for `>> TEMPLATE <<` or scroll to the bottom.
+2. Select the `>> TEMPLATE <<` app and paste the configuration from [`caprover/compose.yml`](https://github.com/0dataapp/oneclick-proof/blob/master/caprover/compose.yml).
+3. Name your app `oneclick-proof` or something else, then click `Deploy`.
 
-1. navigate to "Apps" → "Create A New App".
-2. check the box for "Has Persistent Data", name your app as `oneclick-proof` or something else, and then click "Create New App".
-3. navigate to your app settings, then "App Configs" → "Persistent Directories".
-4. set "Path in App" to `/usr/src/app/__local` and "Label" to `oneclick-proof-local`; click "Save & Restart".
-5. see the update command below to finalize.
+### without docker-compose
 
-### updates and other ways to deploy
+1. Navigate to `Apps` → `Create A New App`.
+2. Check the box for `Has Persistent Data`, name your app as `oneclick-proof` or something else, and then click `Create New App`.
+3. Navigate to your app settings, then `App Configs` → `Persistent Directories`.
+4. Set `Path in App` to `/usr/src/app/__local` and "Label" to `oneclick-proof-local`; click `Save & Restart`.
+5. See the update command below to finalize.
 
-To update an existing app: navigate to "Deployment", enter `0data/oneclick-proof:latest` into "Deploy via ImageName", then click "Deploy".
-
-You may want to enable "Force HTTPS by redirecting all HTTP traffic to HTTPS".
+---
 
 Other [deployment methods](https://caprover.com/docs/deployment-methods.html), include uploading a `.tar` file and deploying code directly from your machine without publishing a Docker image via the [Caprover CLI](https://caprover.com/docs/cli-commands.html):
 
@@ -62,11 +74,24 @@ cd oneclick-proof
 caprover deploy
 ```
 
-To update via the CLI using the last used configuration:
+</details>
+
+<details>
+<summary>Updates</summary>
+
+### via Docker image
+
+1. Navigate to `Deployment`, enter `0data/oneclick-proof:latest` into `Deploy via ImageName`, then click `Deploy`. It may take some time after 'finishing' so give it a minute.
+
+### via local directory
+
+1. Call `deploy` again but with a flag to use the previous configuration:
 
 ```
 caprover deploy -d
 ```
+
+</details>
 
 More info on packaging and deployment:
 - [Captain Definition File](https://caprover.com/docs/captain-definition-file.html)
@@ -76,31 +101,45 @@ More info on packaging and deployment:
 
 ## [Coolify](https://coolify.io)
 
-Install by using the public Git repository:
+<details>
+<summary>Setup</summary>
 
-1. navigate to "Projects" → choose/create a project… → "Resources" → "+ New" → "Applications" → "Git Based" → "Public Repository"
-2. configure as follows:
-	- Repository URL:
+0. [Install Coolify](https://coolify.io/docs/get-started/installation) via one-click images on Hetzner, DigitalOcean or other hosting platforms.
+
+1. Navigate to `Projects` → choose/create a project… → `Resources` → `+ New` → `Applications` → `Git Based` → `Public Repository`.
+
+2. Configure the following parameters:
+
+	- Repository URL
 		
 		```
 		https://github.com/0dataapp/oneclick-proof/tree/master
 		```
 	
-	- Build Pack:
+	- Build Pack
 		
 		```
 		Docker Compose
 		```
 	
-	- Docker Compose Location:
+	- Docker Compose Location
 		
 		```
 		/coolify/compose.yml
 		```
-3. select "Continue" and then, on the following "Configuration" page, click "Deploy".
-4. setup a domain under "Configuration" → "General" → "Domains" by entering something like `https://oneclick-proof.[your root domain]` and clicking "Save", or make a random one by clicking "Generate Domain"; in case of [SSL issues](https://coolify.io/docs/troubleshoot/dns-and-domains/lets-encrypt-not-working) click "Redeploy".
 
-Update by clicking "Redeploy" or "Advanced" → "Force deploy (without cache)" to pull from the Git repository.
+3. Select `Continue` and then, on the following `Configuration` page, click `Deploy`.
+
+4. Setup a domain under `Configuration` → `General` → `Domains` by entering something like `https://oneclick-proof.[your root domain]` and clicking `Save`, or make a random one by clicking `Generate Domain`; in case of [SSL issues](https://coolify.io/docs/troubleshoot/dns-and-domains/lets-encrypt-not-working) click `Redeploy`.
+
+</details>
+
+<details>
+<summary>Updates</summary>
+
+1. Click `Redeploy` or `Advanced` → `Force deploy (without cache)` to pull from the Git repository.
+
+</details>
 
 More information:
 - [Adding a new service template to Coolify](https://coolify.io/docs/get-started/contribute/service)
